@@ -24,22 +24,26 @@ def download_image(url, directory, name):
 def main():  
     '''runs program
     '''
-    directory = r'C:/Users/bsharkey'
-    
-    meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
-    capelambertdolphin34 = ImageNameUrl('capelambertdolphin34', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/D34_Wave.Gif')
-    capelambertbeacon28 = ImageNameUrl('capelambertbeacon28', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/M28_Met.Gif')
-    beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
-    beacon14wavemax = ImageNameUrl('beacon14wavemax', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_MAX.Gif')
+    try:
+        directory = r'C:/Users/bsharkey'
 
-    image_list = [meterologystation,
-                  capelambertdolphin34,
-                  beacon14wavesignificant,
-                  beacon14wavemax]
+        meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
+        capelambertdolphin34 = ImageNameUrl('capelambertdolphin34', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/D34_Wave.Gif')
+        capelambertbeacon28 = ImageNameUrl('capelambertbeacon28', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/M28_Met.Gif')
+        beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
+        beacon14wavemax = ImageNameUrl('beacon14wavemax', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_MAX.Gif')
+
+        image_list = [meterologystation,
+                      capelambertdolphin34,
+                      beacon14wavesignificant,
+                      beacon14wavemax]
+
+        for i in image_list:
+            download_image(i.url, directory, i.name)
     
-    for i in image_list:
-        download_image(i.url, directory, i.name)
-    
+    except Exception as e:
+        print(e)
+        
     
 if __name__ == '__main__':
     main()
