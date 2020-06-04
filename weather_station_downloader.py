@@ -22,7 +22,8 @@ def download_image(url, directory, name):
 
 
 def main():  
-    '''runs program
+    '''
+    Runs program
     '''
     try:
         directory = r'C:/Users/bsharkey'
@@ -39,7 +40,11 @@ def main():
                       beacon14wavemax]
 
         for i in image_list:
-            download_image(i.url, directory, i.name)
+            try:
+                download_image(i.url, directory, i.name)
+            except Exception as ex:
+                print(i.name + ': ' + str(ex))
+                
     
     except Exception as e:
         print(e)
