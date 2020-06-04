@@ -1,5 +1,6 @@
 import urllib.request
 import datetime
+import os
 
 
 class ImageNameUrl:
@@ -26,7 +27,7 @@ def main():
     Runs program
     '''
     try:
-        directory = r'C:/Users/bsharkey'
+        directory = str(os.getcwd())
 
         meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
         capelambertdolphin34 = ImageNameUrl('capelambertdolphin34', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/D34_Wave.Gif')
