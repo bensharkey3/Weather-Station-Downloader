@@ -27,6 +27,8 @@ def main():
     Runs program
     '''
     try:
+        success_count = 0
+        fail_count = 0
         directory = str(os.getcwd())
 
         meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
@@ -37,18 +39,28 @@ def main():
 
         image_list = [meterologystation,
                       capelambertdolphin34,
+                      capelambertbeacon28,
                       beacon14wavesignificant,
                       beacon14wavemax]
 
         for i in image_list:
             try:
                 download_image(i.url, directory, i.name)
+                success_count+=1
             except Exception as ex:
+                fail_count+=1
                 print(i.name + ': ' + str(ex))
                 
     
     except Exception as e:
         print(e)
+        
+    if fail_count == 0:
+        message = 'Successful - {} images downloaded'.format(success_count)
+    else:
+        message = 'ERROR - {} images downloaded, {} failed'.format(success_count, fail_count)
+    
+    print(message)
         
     
 if __name__ == '__main__':
