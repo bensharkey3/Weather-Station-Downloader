@@ -1,10 +1,12 @@
 import urllib.request
 import datetime
 import os
+import logging
 
 
 class ImageNameUrl:
     def __init__(self, name, url):
+        '''creates an object for each image containing its url and giving it a name'''
         self.name = name
         self.url = url
 
@@ -23,45 +25,52 @@ def download_image(url, directory, name):
 
 
 def main():  
-    '''
-    Runs program
-    '''
-    try:
-        success_count = 0
-        fail_count = 0
-        directory = str(os.getcwd())
+    '''Runs the program'''
+    # create and configure logger 
+    logging.basicConfig(filename="logs.log", 
+        format='%(asctime)s %(message)s', 
+        filemode='w') 
 
-        meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
-        capelambertdolphin34 = ImageNameUrl('capelambertdolphin34', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/D34_Wave.Gif')
-        capelambertbeacon28 = ImageNameUrl('capelambertbeacon28', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/M28_Met.Gif')
-        beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
-        beacon14wavemax = ImageNameUrl('beacon14wavemax', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_MAX.Gif')
+    logger=logging.getLogger() 
+    logger.setLevel(20) 
 
-        image_list = [meterologystation,
-                      capelambertdolphin34,
-                      capelambertbeacon28,
-                      beacon14wavesignificant,
-                      beacon14wavemax]
+    # define variables
+    success_count = 0
+    fail_count = 0
+    directory = str(os.getcwd())
 
-        for i in image_list:
-            try:
-                download_image(i.url, directory, i.name)
-                success_count+=1
-            except Exception as ex:
-                fail_count+=1
-                print(i.name + ': ' + str(ex))
-                
+    meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
+    capelambertdolphin34 = ImageNameUrl('capelambertdolphin34', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/D34_Wave.Gif')
+    capelambertbeacon28 = ImageNameUrl('capelambertbeacon28', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/M28_Met.Gif')
+    beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
+    beacon14wavemax = ImageNameUrl('beacon14wavemax', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_MAX.Gif')
+
+    image_list = [meterologystation,
+                  capelambertdolphin34,
+                  capelambertbeacon28,
+                  beacon14wavesignificant,
+                  beacon14wavemax]
+
+    # download images
+    for i in image_list:
+        try:
+            download_image(i.url, directory, i.name)
+            success_count+=1
+        except Exception as ex:
+            fail_count+=1
+            print(i.name + ': ' + str(ex))
+            logger.error(i.name + ': ' + str(ex))
     
-    except Exception as e:
-        print(e)
-        
+    # write completion messages to logs
     if fail_count == 0:
         message = 'Successful - {} images downloaded'.format(success_count)
+        print(message)
+        logger.info(message)
     else:
         message = 'ERROR - {} images downloaded, {} failed'.format(success_count, fail_count)
-    
-    print(message)
-        
+        print(message)
+        logger.error(message)
+
     
 if __name__ == '__main__':
     main()
