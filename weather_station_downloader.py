@@ -28,8 +28,9 @@ def main():
     '''Runs the program'''
     # create and configure logger 
     logging.basicConfig(filename="logs.log", 
-        format='%(asctime)s %(message)s', 
-        filemode='w') 
+        format='%(asctime)s - %(levelname)s - %(message)s', 
+        datefmt='%Y-%m-%d %H:%M:%S',
+        filemode='a') 
 
     logger=logging.getLogger() 
     logger.setLevel(20) 
@@ -42,7 +43,7 @@ def main():
     meterologystation = ImageNameUrl('meterologystation', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/CLW_Met.Gif')
     capelambertdolphin34 = ImageNameUrl('capelambertdolphin34', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/D34_Wave.Gif')
     capelambertbeacon28 = ImageNameUrl('capelambertbeacon28', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/M28_Met.Gif')
-    beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
+    beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://ww.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
     beacon14wavemax = ImageNameUrl('beacon14wavemax', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_MAX.Gif')
 
     image_list = [meterologystation,
