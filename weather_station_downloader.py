@@ -2,6 +2,7 @@ import urllib.request
 import datetime
 import os
 import logging
+import smtplib
 
 
 class ImageNameUrl:
@@ -22,6 +23,30 @@ def download_image(url, directory, name):
     '''
     path = directory + '/' + datetime.datetime.today().strftime('%Y-%m-%d') + '-' + name +'.jpg'
     urllib.request.urlretrieve(url, path)
+    
+
+def send_basic_gmail(to_email, subject, message_body):
+    '''this function sends an email from bensharkeyreporting@gmail.com'''
+    gmail_sender = 'bensharkeyreporting@gmail.com'
+    gmail_pwd = 'reporting123'
+
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+    server.login(gmail_sender, gmail_passwd)
+
+    email_string = '\r\n'.join(['To: %s' % to_email,
+        'From: %s' % gmail_sender,
+        'Subject: %s' % subject,
+        '', message_body])
+
+    try:
+        server.sendmail(gmail_sender, [to_email], email_string)
+        print ('email sent')
+    except:
+        print ('error sending mail')
+
+    server.quit()
 
 
 def main():  
@@ -62,15 +87,15 @@ def main():
             print(i.name + ': ' + str(ex))
             logger.error(i.name + ': ' + str(ex))
     
-    # write completion messages to logs
+    # write completion messages to logs and email
     if fail_count == 0:
         message = 'Successful - {} images downloaded'.format(success_count)
-        print(message)
-        logger.info(message)
     else:
         message = 'ERROR - {} images downloaded, {} failed'.format(success_count, fail_count)
-        print(message)
-        logger.error(message)
+        
+    print(message)
+    logger.error(message)
+    send_basic_gmail('ben.sharkey@gmail.com', message, '')
 
     
 if __name__ == '__main__':
