@@ -95,7 +95,7 @@ def main():
         
     print(message)
     logger.error(message)
-    send_basic_gmail('ben.sharkey@gmail.com', message, '')
+    send_basic_gmail('ben.sharkey3@gmail.com', message, '')
 
     
 if __name__ == '__main__':
