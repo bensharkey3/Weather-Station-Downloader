@@ -94,7 +94,7 @@ def main():
         message = 'ERROR - {} images downloaded, {} failed'.format(success_count, fail_count)
         
     print(message)
-    logger.error(message)
+    logger.info(message)
     send_basic_gmail('bensharkey3@gmail.com', message, '')
 
     
