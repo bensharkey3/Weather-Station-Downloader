@@ -33,7 +33,7 @@ def send_basic_gmail(to_email, subject, message_body):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login(gmail_sender, gmail_passwd)
+    server.login(gmail_sender, gmail_pwd)
 
     email_string = '\r\n'.join(['To: %s' % to_email,
         'From: %s' % gmail_sender,
