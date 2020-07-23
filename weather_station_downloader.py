@@ -3,6 +3,7 @@ import boto3
 import smtplib
 import datetime
 import requests
+import os
 
 
 class ImageNameUrl:
@@ -21,9 +22,6 @@ def download_image(url, name, bucket_name):
     Returns:
         none
     '''
-#     path = directory + '/' + datetime.datetime.today().strftime('%Y-%m-%d') + '-' + name +'.jpg'
-#     urllib.request.urlretrieve(url, path)
-
     object_key = datetime.datetime.today().strftime('%Y-%m-%d') + '-' + name +'.png'
     s3_object = boto3.resource('s3').Object(bucket_name, object_key)
     
@@ -34,7 +32,7 @@ def download_image(url, name, bucket_name):
 def send_basic_gmail(to_email, subject, message_body):
     '''this function sends an email from bensharkeyreporting@gmail.com'''
     gmail_sender = 'bensharkeyreporting@gmail.com'
-    gmail_pwd = 'reporting123'
+    gmail_pwd = os.environ['gmail_pwd']
 
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
@@ -83,8 +81,8 @@ def lambda_handler(event, context):
             fail_count+=1
             print(i.name + ': ' + str(ex))
     
-    message = 'downloaded {} images using aws lambda - {} errors encountered'.format(success_count, fail_count)
-    send_basic_gmail('bensharkey3@gmail.com', message, '')
+    message = '{} images downloaded, {} errors encountered - weather_station_downloader '.format(success_count, fail_count)
+    send_basic_gmail('bensharkey3@gmail.com', message, "downloaded images to s3 bucket 'cape-lambert-weather-station-images' using aws lambda")
     
     return {
         'statusCode': 200,
