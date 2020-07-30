@@ -71,6 +71,9 @@ def lambda_handler(event, context):
                   capelambertbeacon28,
                   beacon14wavesignificant,
                   beacon14wavemax]
+                  
+    email_recipient_list = ['bensharkey3@gmail.com',
+                            'brenton.savio@australconstruction.com.au']
     
     # download images
     for i in image_list:
@@ -81,8 +84,10 @@ def lambda_handler(event, context):
             fail_count+=1
             print(i.name + ': ' + str(ex))
     
-    message = '{} images downloaded, {} errors encountered - weather_station_downloader '.format(success_count, fail_count)
-    send_basic_gmail('bensharkey3@gmail.com', message, "downloaded images to s3 bucket 'cape-lambert-weather-station-images' using aws lambda")
+    message = '{} images downloaded, {} errors encountered'.format(success_count, fail_count)
+    
+    for i in email_recipient_list:
+        send_basic_gmail(i, message, "downloaded images to s3 bucket 'cape-lambert-weather-station-images'")
     
     return {
         'statusCode': 200,
