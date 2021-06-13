@@ -65,12 +65,19 @@ def lambda_handler(event, context):
     capelambertbeacon28 = ImageNameUrl('capelambertbeacon28', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/M28_Met.Gif')
     beacon14wavesignificant = ImageNameUrl('beacon14wavesignificant', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_Wave.Gif')
     beacon14wavemax = ImageNameUrl('beacon14wavemax', r'http://www.pilbarairon.com/DprCLWeather/GraphInfo/B14_MAX.Gif')
+    teneasttidemaxwaveheight = ImageNameUrl('teneasttidemaxwaveheight', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/TEA_MAX.Gif')
+    beacon10waves = ImageNameUrl('beacon10waves', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/TEA_Wave.Gif')
+    beacon2westwavedirectandperiod = ImageNameUrl('beacon2westwavedirectandperiod', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/2WA_Pold.Gif')
 
     image_list = [meterologystation,
                   capelambertdolphin34,
                   capelambertbeacon28,
                   beacon14wavesignificant,
-                  beacon14wavemax]
+                  beacon14wavemax,
+                  teneasttidemaxwaveheight,
+                  beacon10waves,
+                  beacon2westwavedirectandperiod
+                  ]
                   
     email_recipient_list = ['bensharkey3@gmail.com',
                             'brenton.savio@australconstruction.com.au']
