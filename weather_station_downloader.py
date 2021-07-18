@@ -56,7 +56,8 @@ def send_basic_gmail(to_email, subject, message_body):
 def lambda_handler(event, context):
     '''runs program
     '''
-    bucket_name = 'cape-lambert-weather-station-images'
+    capel_bucket_name = 'cape-lambert-weather-station-images'
+    dampier_bucket_name = 'dampier-weather-station-images'
     success_count = 0
     fail_count = 0
     
@@ -68,33 +69,59 @@ def lambda_handler(event, context):
     teneasttidemaxwaveheight = ImageNameUrl('teneasttidemaxwaveheight', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/TEA_MAX.Gif')
     beacon10waves = ImageNameUrl('beacon10waves', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/TEA_Wave.Gif')
     beacon2westwavedirectandperiod = ImageNameUrl('beacon2westwavedirectandperiod', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/2WA_Pold.Gif')
+    beacon10eastwind = ImageNameUrl('beacon10eastwind', r'https://www.pilbarairon.com/DprCLWeather/GraphInfo/HIM_WIND.GIF')
 
-    image_list = [meterologystation,
-                  capelambertdolphin34,
-                  capelambertbeacon28,
-                  beacon14wavesignificant,
-                  beacon14wavemax,
-                  teneasttidemaxwaveheight,
-                  beacon10waves,
-                  beacon2westwavedirectandperiod
-                  ]
+    capel_image_list = [
+                    meterologystation,
+                    capelambertdolphin34,
+                    capelambertbeacon28,
+                    beacon14wavesignificant,
+                    beacon14wavemax,
+                    # teneasttidemaxwaveheight,
+                    # beacon10waves,
+                    # beacon2westwavedirectandperiod
+                    ]
+
+    dampier_image_list = [
+                    # meterologystation,
+                    # capelambertdolphin34,
+                    # capelambertbeacon28,
+                    # beacon14wavesignificant,
+                    # beacon14wavemax,
+                    teneasttidemaxwaveheight,
+                    beacon10waves,
+                    beacon2westwavedirectandperiod,
+                    beacon10eastwind
+                    ]
                   
     email_recipient_list = ['bensharkey3@gmail.com',
-                            'brenton.savio@australconstruction.com.au']
+                            'brenton.savio@australconstruction.com.au'
+                            ]
     
     # download images
-    for i in image_list:
+    for i in capel_image_list:
         try:
-            download_image(i.url, i.name, bucket_name)
+            download_image(i.url, i.name, capel_bucket_name)
+            success_count+=1
+        except Exception as ex:
+            fail_count+=1
+            print(i.name + ': ' + str(ex))
+
+
+    for i in dampier_image_list:
+        try:
+            download_image(i.url, i.name, dampier_bucket_name)
             success_count+=1
         except Exception as ex:
             fail_count+=1
             print(i.name + ': ' + str(ex))
     
+
+    
     message = '{} images downloaded, {} errors encountered'.format(success_count, fail_count)
     
     for i in email_recipient_list:
-        send_basic_gmail(i, message, "downloaded images to s3 bucket 'cape-lambert-weather-station-images'")
+        send_basic_gmail(i, message, "downloaded images to s3 buckets: 'cape-lambert-weather-station-images' and 'dampier-weather-station-images' ")
     
     return {
         'statusCode': 200,
